@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>პროექტის დეტალები</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@400;500;600&family=Noto+Sans+Georgian:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg: #ffffff;
+    --ink: #1a1a17;
+    --muted: #767065;
+    --hairline: #e6e3db;
+    --box-bg: #faf9f6;
+    --accent: #33473a;
+    --accent-soft: #eef1ec;
+    --purple: #7757E9;
+    --purple-soft: #f3f0fe;
+    --purple-mid: #c4b5fa;
+  }
+
+  *{ box-sizing: border-box; margin: 0; padding: 0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans Georgian", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ---- wave background ---- */
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='200'%3E%3Cpath d='M0 100 C150 60,300 140,450 100 S750 60,900 100' stroke='%237757E9' stroke-width='1' fill='none' opacity='0.18'/%3E%3Cpath d='M0 130 C150 90,300 170,450 130 S750 90,900 130' stroke='%237757E9' stroke-width='0.8' fill='none' opacity='0.12'/%3E%3Cpath d='M0 70 C150 30,300 110,450 70 S750 30,900 70' stroke='%237757E9' stroke-width='0.8' fill='none' opacity='0.12'/%3E%3Cpath d='M0 160 C150 120,300 200,450 160 S750 120,900 160' stroke='%237757E9' stroke-width='0.6' fill='none' opacity='0.08'/%3E%3Cpath d='M0 40 C150 0,300 80,450 40 S750 0,900 40' stroke='%237757E9' stroke-width='0.6' fill='none' opacity='0.08'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 900px 200px;
+  }
+
+  body > *{ position: relative; z-index: 1; }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+    width: 100%;
+  }
+
+  /* ---------- header ---------- */
+
+  header{
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hairline);
+    z-index: 10;
+  }
+
+  .header-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+
+  .site-name{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+
+  .logo-mark{
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .back-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--purple);
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--purple-mid);
+    background: var(--purple-soft);
+    transition: all 0.25s ease;
+    font-weight: 500;
+  }
+
+  .back-btn:hover{
+    background: var(--purple);
+    color: #fff;
+    border-color: var(--purple);
+    transform: translateX(-3px);
+  }
+
+  .back-btn svg{
+    width: 16px;
+    height: 16px;
+    transition: transform 0.25s ease;
+  }
+
+  .back-btn:hover svg{
+    transform: translateX(-3px);
+  }
+
+  /* ---------- main content ---------- */
+
+  .detail-content{
+    flex: 1;
+    padding: 48px 0 80px;
+  }
+
+  .detail-layout{
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* -- left column -- */
+  .detail-left{
+    position: sticky;
+    top: 100px;
+  }
+
+  .detail-image-wrap{
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    background: var(--box-bg);
+    aspect-ratio: 1 / 1;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .detail-image-wrap:hover{
+    border-color: var(--purple-mid);
+    box-shadow: 0 12px 40px rgba(119, 87, 233, 0.15);
+  }
+
+  .detail-image-wrap img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .detail-image-wrap:hover img{
+    transform: scale(1.03);
+  }
+
+  .detail-image-wrap.empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .detail-image-wrap.empty::before{
+    content: "";
+    font-size: 48px;
+    opacity: 0.4;
+  }
+
+
+
+  .location-region{
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .location-school{
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .open-project-btn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px 24px;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: "Noto Sans Georgian", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .open-project-btn::before{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .open-project-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(119, 87, 233, 0.35);
+  }
+
+  .open-project-btn:hover::before{
+    opacity: 1;
+  }
+
+  .open-project-btn svg{
+    width: 18px;
+    height: 18px;
+    transition: transform 0.3s ease;
+  }
+
+  .open-project-btn:hover svg{
+    transform: translateX(4px);
+  }
+
+  /* -- right column -- */
+  .detail-right{}
+
+  .detail-name{
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .detail-title{
+    font-size: 17px;
+    color: var(--purple);
+    font-weight: 500;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .location-info{
+    margin-top: 14px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  /* metadata grid */
+  .meta-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 36px;
+  }
+
+  .meta-card{
+    background: transparent;
+    border: 1px solid rgba(119, 87, 233, 0.12);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: all 0.3s ease;
+  }
+
+  .meta-card:hover{
+    border-color: var(--purple-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(119, 87, 233, 0.1);
+  }
+
+  .meta-card.full-width{
+    grid-column: 1 / -1;
+  }
+
+  .meta-label{
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--purple);
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .meta-label .icon{
+    font-size: 14px;
+  }
+
+  .meta-value{
+    font-size: 14.5px;
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* description section */
+  .description-section{
+    background: transparent;
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    padding: 28px 32px;
+    transition: border-color 0.3s ease;
+  }
+
+  .description-section:hover{
+    border-color: var(--purple-mid);
+  }
+
+  .description-heading{
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--purple);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .description-text{
+    font-size: 15px;
+    line-height: 1.9;
+    color: #3a3837;
+  }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    border-top: 1px solid var(--hairline);
+    padding: 28px 0;
+    background: #fafaf8;
+    margin-top: auto;
+  }
+
+  .footer-row{
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ---------- not found ---------- */
+  .not-found{
+    text-align: center;
+    padding: 120px 0;
+  }
+
+  .not-found h2{
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 24px;
+    color: var(--purple);
+    margin-bottom: 16px;
+  }
+
+  .not-found p{
+    color: var(--muted);
+    font-size: 15px;
+    margin-bottom: 28px;
+  }
+
+  /* ---------- fade-in animation ---------- */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-in{
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .animate-in:nth-child(1){ animation-delay: 0.05s; }
+  .animate-in:nth-child(2){ animation-delay: 0.12s; }
+  .animate-in:nth-child(3){ animation-delay: 0.19s; }
+  .animate-in:nth-child(4){ animation-delay: 0.26s; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px){
+    .detail-layout{
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .detail-left{
+      position: static;
+      max-width: 420px;
+    }
+    .detail-image-wrap{
+      aspect-ratio: 4/3;
+    }
+  }
+
+  @media (max-width: 600px){
+    .meta-grid{
+      grid-template-columns: 1fr;
+    }
+    .wrap{ padding: 0 20px; }
+    .detail-name{ font-size: 22px; }
+    .description-section{ padding: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a href="index.html" class="site-name"><img src="logo.png" alt="ლოგო" class="logo-mark">მასწავლებლების ციფრული რესურსები</a>
+
+  </div>
+</header>
+
+<main class="detail-content">
+  <div class="wrap" id="detail-container">
+    <!-- Content dynamically injected by JS -->
+  </div>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>მასწავლებლების ციფრული რესურსები</span>
+    <span>&copy; 2026</span>
+  </div>
+</footer>
+
+<script src="projects-data.js"></script>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const projectId = parseInt(params.get("id"), 10);
+  const container = document.getElementById("detail-container");
+
+  const project = projectsData.find(p => p.id === projectId);
+
+  if (!project) {
+    container.innerHTML = `
+      <div class="not-found">
+        <h2>პროექტი ვერ მოიძებნა</h2>
+        <p>მითითებული პროექტი არ არსებობს ან წაშლილია.</p>
+        <a href="index.html" class="back-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          მთავარ გვერდზე დაბრუნება
+        </a>
+      </div>`;
+  } else {
+    document.title = project.name + " — " + project.title;
+
+    const imageHTML = project.image
+      ? `<img src="${project.image}" alt="${project.title}">`
+      : ``;
+
+    container.innerHTML = `
+      <div class="detail-layout">
+        <div class="detail-left animate-in">
+          <div class="detail-image-wrap${project.image ? '' : ' empty'}">
+            ${imageHTML}
+          </div>
+          <a href="${project.project_link}" target="_blank" class="open-project-btn">
+            პროექტის გახსნა
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+          </a>
+        </div>
+
+        <div class="detail-right">
+          <div class="animate-in">
+            <div class="detail-name">${project.name}</div>
+            <div class="detail-title">${project.title}</div>
+            <div class="location-info">
+              ${project.region ? `<div class="location-region">რეგიონი: ${project.region}</div>` : ''}
+              ${project.school ? `<div class="location-school">სკოლა: ${project.school}</div>` : ''}
+            </div>
+          </div>
+
+          <div class="meta-grid animate-in">
+            <div class="meta-card">
+              <div class="meta-label">ვისთვის არის განკუთვნილი</div>
+              <div class="meta-value">${project.audience || '—'}</div>
+            </div>
+            <div class="meta-card">
+              <div class="meta-label">საგნები</div>
+              <div class="meta-value">${project.subjects || '—'}</div>
+            </div>
+          </div>
+
+          <div class="description-section animate-in">
+            <div class="description-heading">პროექტის აღწერა</div>
+            <div class="description-text">${project.description || 'აღწერა არ არის მითითებული.'}</div>
+          </div>
+        </div>
+      </div>`;
+  }
+</script>
+</body>
+</html>

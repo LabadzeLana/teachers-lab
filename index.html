@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>მასწავლებლების ციფრული რესურსები</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@400;500;600&family=Noto+Sans+Georgian:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+
+  /* ==========================================================
+     როგორ დავამატო პროექტი / How to add a project
+     ==========================================================
+     1. ქვემოთ, <script> ბლოკში (ფაილის ბოლოს) იპოვეთ მასივი "projects".
+     2. დაამატეთ ახალი ობიექტი ამ ფორმატით:
+        { image: "images/1.jpg", name: "სახელი გვარი", title: "პროექტის სათაური" }
+     3. სურათები შეინახეთ ამავე ფოლდერში, ქვეფოლდერში სახელად "images".
+     4. თუ სურათს ჯერ არ დაამატებთ, ავტომატურად გამოჩნდება ცარიელი placeholder.
+     ========================================================== */
+
+  :root{
+    --bg: #ffffff;
+    --ink: #1a1a17;
+    --muted: #767065;
+    --hairline: #e6e3db;
+    --box-bg: #faf9f6;
+    --accent: #33473a;
+    --accent-soft: #eef1ec;
+    --purple: #7757E9;
+    --purple-soft: #f3f0fe;
+    --purple-mid: #c4b5fa;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Noto Sans Georgian", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+  }
+
+  /* ---- wave background ---- */
+  body::before{
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.45;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='200'%3E%3Cpath d='M0 100 C150 60,300 140,450 100 S750 60,900 100' stroke='%237757E9' stroke-width='1' fill='none' opacity='0.18'/%3E%3Cpath d='M0 130 C150 90,300 170,450 130 S750 90,900 130' stroke='%237757E9' stroke-width='0.8' fill='none' opacity='0.12'/%3E%3Cpath d='M0 70 C150 30,300 110,450 70 S750 30,900 70' stroke='%237757E9' stroke-width='0.8' fill='none' opacity='0.12'/%3E%3Cpath d='M0 160 C150 120,300 200,450 160 S750 120,900 160' stroke='%237757E9' stroke-width='0.6' fill='none' opacity='0.08'/%3E%3Cpath d='M0 40 C150 0,300 80,450 40 S750 0,900 40' stroke='%237757E9' stroke-width='0.6' fill='none' opacity='0.08'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 900px 200px;
+  }
+
+  /* ensure all direct children of body stack above the wave */
+  body > *{ position: relative; z-index: 1; }
+
+  a{ color: inherit; }
+
+  .wrap{
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- header ---------- */
+
+  header{
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hairline);
+    z-index: 10;
+  }
+
+  .header-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+
+  .site-name{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+  }
+
+  .logo-mark{
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  nav{ display: flex; gap: 28px; align-items: center; }
+
+  nav a{
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--muted);
+    position: relative;
+    padding-bottom: 2px;
+    transition: color 0.2s ease;
+  }
+
+  nav a::after{
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--purple);
+    border-radius: 2px;
+    transition: width 0.25s ease;
+  }
+
+  nav a:hover{ color: var(--ink); }
+  nav a:hover::after{ width: 100%; }
+
+  /* ---------- hero ---------- */
+
+  .hero{
+    padding: 80px 0 64px;
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+  }
+
+  .hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, var(--purple), transparent);
+    border-radius: 0 2px 2px 0;
+  }
+
+  .hero h1{
+    font-family: "Noto Serif Georgian", serif;
+    font-weight: 500;
+    font-size: clamp(18px, 2.4vw, 26px);
+    line-height: 1.6;
+    max-width: 820px;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  .workshop-title{
+    color: var(--purple);
+    font-weight: 600;
+  }
+
+  /* ---------- projects ---------- */
+
+  .projects{
+    padding: 80px 0 100px;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .projects-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 44px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .projects-head h2{
+    font-family: "Noto Serif Georgian", serif;
+    font-weight: 600;
+    font-size: 20px;
+    color: var(--purple);
+    margin: 0;
+  }
+
+  .projects-count{
+    font-size: 13px;
+    color: var(--purple);
+    background: var(--purple-soft);
+    border: 1px solid var(--purple-mid);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px 28px;
+  }
+
+  /* ---------- card ---------- */
+
+  .card{
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+    border: 1px solid var(--hairline);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .card:hover{
+    transform: translateY(-4px);
+    border-color: var(--purple-mid);
+    box-shadow: 0 10px 36px rgba(119, 87, 233, 0.13);
+  }
+
+  .card-visual{
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    background: var(--box-bg);
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .card-visual img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  .card:hover .card-visual img{
+    transform: scale(1.04);
+  }
+
+  /* overlay on hover */
+  .card-visual::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(119,87,233,0.08) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .card:hover .card-visual::after{
+    opacity: 1;
+  }
+
+  .card-visual.empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-visual.empty::before{
+    content: "+";
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 26px;
+    color: #c9c6bd;
+    font-weight: 400;
+  }
+
+  .card-meta{
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.85);
+    transition: background 0.25s ease;
+  }
+
+  .card:hover .card-meta{
+    background: var(--purple-soft);
+  }
+
+  .card-name{
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+    transition: color 0.2s ease;
+  }
+
+  .card:hover .card-name{
+    color: var(--purple);
+  }
+
+  .card-title{
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ---------- about ---------- */
+
+  .about{
+    padding: 80px 0;
+  }
+
+  .about-label{
+    font-family: "Noto Serif Georgian", serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--purple);
+    padding-top: 4px;
+  }
+
+  .about-body{
+    padding: 4px 0;
+  }
+
+  .about-body p{
+    font-size: 15.5px;
+    line-height: 1.9;
+    color: #3a3837;
+    margin: 0 0 16px;
+    text-align: center;
+  }
+
+  .about-body p:last-child{ margin-bottom: 0; }
+
+  /* ---------- footer ---------- */
+
+  footer{
+    border-top: 1px solid var(--hairline);
+    padding: 28px 0;
+    background: #fafaf8;
+  }
+
+  .footer-row{
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--muted);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 760px){
+    .grid{ grid-template-columns: repeat(2, 1fr); gap: 28px 20px; }
+    .wrap{ padding: 0 20px; }
+    .hero{ padding: 56px 0 48px; }
+    .projects{ padding: 60px 0 80px; }
+  }
+
+  @media (max-width: 480px){
+    .grid{ grid-template-columns: 1fr; }
+    nav{ gap: 18px; }
+    .about-body{ padding: 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ transition: none !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-row">
+    <a href="#" class="site-name"><img src="logo.png" alt="ლოგო" class="logo-mark"></a>
+    <nav>
+      <a href="#projects">პროექტები</a>
+      <a href="#about">პროექტის შესახებ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>ვებგვერდზე წარმოდგენილია მასწავლებლების მიერ ჯეოლაბის ვორქშოპის — <span class="workshop-title">„ხელოვნური ინტელექტის გამოყენების ხელოვნება“</span> — ფარგლებში შექმნილი, ხელოვნურ ინტელექტზე დაფუძნებული ასისტენტები და მინიპროგრამები — ციფრული საგანმანათლებლო რესურსები.</h1>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="wrap">
+    <div class="projects-head">
+      <h2>მასწავლებლების პროექტები</h2>
+      <span class="projects-count" id="count"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+
+    <div class="about-body">
+      <p>პროექტი მიზნად ისახავს მასწავლებლების ციფრული და ტექნოლოგიური კომპეტენციების გაძლიერებას, ხელოვნური ინტელექტის თანამედროვე ინსტრუმენტების სასწავლო პროცესში ინტეგრირებასა და ინოვაციური საგანმანათლებლო რესურსების შექმნას.</p>
+      <p>ვორქშოპის ფარგლებში პედაგოგებმა შეიმუშავეს ინდივიდუალური ინტერაქტიული ასისტენტები, ქვიზები და ვირტუალური ლაბორატორიები, რომლებიც ეხმარება მოსწავლეებს სასწავლო მასალის უკეთ ათვისებასა და ჩართულობის ამაღლებაში.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <span>მასწავლებლების ციფრული რესურსები</span>
+    <span>&copy; 2026</span>
+  </div>
+</footer>
+
+<script>
+  // ==========================================================
+  // პროექტების სია — დაამატეთ ან შეცვალეთ აქ
+  // ==========================================================
+  const projects = [
+    { image: "ანა ნათენაძე.png", name: "ანა ნათენაძე", title: "იგავ-არაკი — სულხან-საბა ორბელიანის „ენით დაკოდილი“", project_link: "https://aniinatenadze-byte.github.io/enit_dakodili/" },
+    { image: "ანა ბელქანია.png", name: "ანა ბელქანია", title: "ChemDetective — ვირტუალური ქიმიის ლაბორატორია", project_link: "https://anabelkania.github.io/-Chemistry/" },
+    { image: "დიანა_მაკალათია_2.svg", name: "დიანა მაკალათია", title: "სამეტყველო ბარათები სსსმ მომსწავლეებისთვის", project_link: "https://www.canva.com/design/DAHRIF4iimU/RMGT4mpYSrYPrp8qtBAA8w/edit" },
+    { image: "ზინაიდა დვალიშვილი.png", name: "ზინაიდა დვალიშვილი", title: "უსაფრთხო ინტერნეტი — ციფრული მოქალაქეობა", project_link: "https://dvalishvilizika-sys.github.io/usafrtxo_interneti/#hero" },
+    { image: "ზინაიდა_დვალიშვილი_4.png", name: "ზინაიდა დვალიშვილი", title: "Geo-keyboard ვსწავლობთ კლავიატურას", project_link: "https://dvalishvilizika-sys.github.io/geo-keyboard/" },
+    { image: "ეკა_კევლიშვილი_5.svg", name: "ეკა კევლიშვილი", title: "კომპიუტერული ტექნოლოგიების მასწავლებლის ასისტენტი", project_link: "https://gemini.google.com/gem/1E3o1huW7RRU_VdO8hxNQ3p14GxquBG8A?usp=sharing" },
+    { image: "ეკა კევლიშვილი.png", name: "ეკა კევლიშვილი", title: "ციფრული მოქალაქეობის ინტერაქტიული ქვიზი", project_link: "https://ekakevli1981.github.io/-/" },
+    { image: "ელიზა_ბაგალიშვილი_7.svg", name: "ელიზა ბაგალიშვილი", title: "კომპიუტერული ტექნოლოგიების მასწავლებლის ასისტენტი", project_link: "https://gemini.google.com/gem/1-L0PPCx28aBHxuNpWkDnCf_SxIXm9GwS?usp=sharing" },
+    { image: "ელიზა_ბაგალიშვილი_8.png", name: "ელიზა ბაგალიშვილი", title: "ციფრული მოქალაქე", project_link: "https://eliza2021.github.io/Digital-citizen/" },
+    { image: "ელზა_მოსეშვილი_9.svg", name: "ელზა მოსეშვილი", title: "რუსული ენის პედაგოგის ასისტენტი", project_link: "https://gemini.google.com/gem/1pnjQDrIWesCslP5vXlQn_15Osur_T_MZ?usp=sharing" },
+    { image: "ეთერ_მაისურაძე_10.svg", name: "ეთერ მაისურაძე", title: "მასწავლებლის ასისტენტი", project_link: "https://gemini.google.com/gem/1Ev0LNHp8iHV0HUJG63fqDNtsUywzYV5p?usp=sharing" },
+    { image: "რუსუდან_გორგაძე_11.svg", name: "რუსუდან გორგაძე", title: "დაწყებითი საფეხურის (I-IV) მათემატიკის მასწავლებლის ასისტენტი", project_link: "https://gemini.google.com/gem/1O-wOa6wIujlmfX3chNaykmaFelZVqLgG?usp=sharing" },
+    { image: "ჟუჟუნა_ბარამაშვილი_12.svg", name: "ჟუჟუნა ბარამაშვილი", title: "მათემატიკა და მათემატიკოსები", project_link: "https://gemini.google.com/gem/1cphf7veeEzDUwKHyPnbvb1vDEpOf8Kzs?usp=sharing" },
+    { image: "ლელა_ლელაძე_13.png", name: "ლელა ლელაძე", title: "კიბერუსაფრთხოება, ციფრული ეთიკა და საავტორო უფლებები", project_link: "https://kesaniko-eng.github.io/-/#hero" },
+    { image: "ხატია_პარსალიშვილი_14.png", name: "ხატია პარსალიშვილი", title: "საგანმანათლებლო რესურსი - კატა და ვეფხვი", project_link: "https://khatia-parsalishvili.github.io/kata-da-vepkhvi/" },
+    { image: "ქრისტინა_ქუთათელაძე_15.svg", name: "ქრისტინა ქუთათელაძე", title: "„კარიერო“ — ხელოვნურ ინტელექტზე დაფუძნებული ასისტენტი", project_link: "https://gemini.google.com/gem/170llDYtJMCTN9k6iNdmZTluvNaTnhIW3?usp=sharing" },
+    { image: "მარი_ჩახვაშვილი_16.png", name: "მარი ჩახვაშვილი", title: "კომპიუტერული ტექნოლოგიები სკოლაში", project_link: "https://mariko85.github.io/tech/#hero" },
+    { image: "მაკა_კალანდაძე_17.svg", name: "მაკა კალანდაძე", title: "N1 დავალება: პირადი ასისტენტი N2 \"არ დაიჯერო რომ შენ მარტო ხარ!\"", project_link: "https://gemini.google.com/gem/1HDssMKrfE8y7-MiUospWyiJSJgzSfY2p?usp=sharing" },
+    { image: "მარიამი_ბერია_18.png", name: "მარიამი ბერია", title: "უფლებათა აკადემია", project_link: "https://mariamberia-bot.github.io/human-rights/#hero" },
+    { image: "მარიამ_მაჭარაშვილი_19.png", name: "მარიამ მაჭარაშვილი", title: "Dyslexia Classes", project_link: "https://marikamacharashvili86-cmd.github.io/Dyslexia-Classes/" },
+    { image: "ნატო_სომხიშვილი_20.png", name: "ნატო სომხიშვილი", title: "შოთა რუსთაველის ციფრული საუნჯე და AI GitHub ასისტენტი", project_link: "https://nato358.github.io/vefxistyaosani-App/" },
+    { image: "ფიქრია_გაბრიჭიძე_21.png", name: "ფიქრია გაბრიჭიძე", title: "Digital Source Analyzer", project_link: "https://pikriagabritchidze-star.github.io/New-folder-33-/" },
+    { image: "ქეთევან_გაბლიშვილი_22.svg", name: "ქეთევან გაბლიშვილი", title: "ჭკვიანი ( SMART ) მასწავლებლის AI ასისტენტი", project_link: "https://gemini.google.com/gem/1kpNL401fRMmCPASnLnNQ-VX5ZhX9ikzJ?usp=sharing" },
+    { image: "ქეთევან_გაბლიშვილი_23.png", name: "ქეთევან გაბლიშვილი", title: "დამრიგებლის ციფრული რესურსების ჰაბი", project_link: "https://qetevangablishvili2021-gif.github.io/homeroom-toolkit/" },
+    { image: "თეა_მეფარიშვილი_24.svg", name: "თეა მეფარიშვილი", title: "პიქსელ არტის მასწავლებელი", project_link: "https://gemini.google.com/gem/1KVSaxwFKuzK9Og4sisjIN6WFOwuqZxST?usp=sharing" }
+  ];
+
+  const grid = document.getElementById("grid");
+  const count = document.getElementById("count");
+  count.textContent = projects.length + " პროექტი";
+
+  projects.forEach((p, index) => {
+    // Create clickable anchor card — links to detail page
+    const card = document.createElement("a");
+    card.className = "card";
+    card.href = "project-details.html?id=" + index;
+    card.target = "_blank";
+    card.style.textDecoration = "none";
+
+    const visual = document.createElement("div");
+    visual.className = "card-visual" + (p.image ? "" : " empty");
+    if(p.image){
+      const img = document.createElement("img");
+      img.src = p.image;
+      img.alt = p.title;
+      img.loading = "lazy";
+      visual.appendChild(img);
+    }
+
+    const meta = document.createElement("div");
+    meta.className = "card-meta";
+    meta.innerHTML = `<div class="card-name">${p.name}</div><div class="card-title">${p.title}</div>`;
+
+    card.appendChild(visual);
+    card.appendChild(meta);
+    grid.appendChild(card);
+  });
+</script>
+</body>
+</html>
